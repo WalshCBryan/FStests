@@ -26,18 +26,47 @@
 
 
     //creating function to launch picker, here a basic filepicker is established, allowing users to upload nearly any file type from a variety of sources including facebook, instagram, public image URLs, or even local files!
-    function pickImg() {
-        console.log("launching Filepicker");
-        client.picker().open();
-    }
+
+    // function pickImg() {
+    //     console.log("launching Filepicker");
+    //     client.picker().open();
+    // }
 
 
 
     //set up picker options, there are many optional parameters that can be passed through the picker function that will allow us to control the input and to affect the final output. We can do things like limit the inoput size, crop/edit photos on the fly, apply criteria filters like metatags, SFW, or even virus detection.
+    // const options = {
+    //     accept: 'image/*',
+    //     maxFiles: 1,
+    // };
+
+
+    //the results of the upload can be returned in JSON object format and will display details like the file handle and the results of any optional parameters passed through (like tag or virus detection.)
+    function pickImg() {
+        console.log("launching Filepicker");
+        client.picker(options).open();
+    }
+
     const options = {
+        onUploadDone: logResult,
         accept: 'image/*',
         maxFiles: 1,
     };
+
+    //a simple function to log the result of the upload, this can be passed through as one of the options in the picker()
+    function logResult(result) {
+        console.log(result);
+    }
+
+    //below is the JSON object result od uploading a single, unmodifed image
+
+    // {filesUploaded: Array(1), filesFailed: Array(0)}
+    // filesUploaded: Array(1)
+    // 0: {filename: "doggo.jpg", handle: "kKPrQYRbQZWZVr6xoKLq", mimetype: "image/jpeg", originalPath: "doggo.jpg", size: 17685, …}
+    // length: 1
+    // __proto__: Array(0)
+    // filesFailed: []
+    // __proto__: Object
 
 
 </script>
