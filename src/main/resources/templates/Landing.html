@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+    <link rel="stylesheet" href="css/main.css">
     <meta charset="UTF-8">
     <title>Filestack Sandbox Testing</title>
 </head>
 <body>
+<h1 class="my-5 white" style="text-align: center"> testing </h1>
 
-<h1> testing </h1>
+
+<button onclick="pickImg()" class="d-block bgorange white border mx-auto my-5 p-2">Launch Filepicker</button>
+
+<div id="fileupload" class="border bgdarkblue white">
+</div>
+
+
+<script>
+
+    const client = filestack.init('ArtLkbaeyQBmnbwBJRmmmz');
+
+    //integrating Filestack's filepicker is remarkedly easy and be customized with just a few lines, allowing us as developers to control the input and output. The versatile toolkit included nearly eliminates the need for intense back end logic or front end styling.
+
+
+    //creating function to launch picker, here a basic filepicker is established, allowing users to upload nearly any file type from a variety of sources including facebook, instagram, public image URLs, or even local files!
+    function pickImg() {
+        console.log("launching Filepicker");
+        client.picker().open();
+    }
+
+
+
+    //set up picker options, there are many optional parameters that can be passed through the picker function that will allow us to control the input and to affect the final output. We can do things like limit the inoput size, crop/edit photos on the fly, apply criteria filters like metatags, SFW, or even virus detection.
+    const options = {
+        accept: 'image/*',
+        maxFiles: 1,
+    };
+
+
+</script>
 </body>
 </html>
