@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+    <script type="text/javascript" src="js/jquery-2.2.4.js"></script>
+
+    <link rel="stylesheet" href="css/main.css">
+    <meta charset="UTF-8">
+    <title>Filestack Sandbox Testing</title>
+</head>
+<body>
+<h1 class="my-5 white" style="text-align: center"> testing </h1>
+
+<button onclick="pickImg()" class="d-block bgorange white border mx-auto my-5 p-2">Launch Filepicker</button>
+
+<div id="img_out" class="border bgdarkblue mx-auto"></div>
+
+<script>
+    const client = filestack.init(MY_API_KEY);
+    function pickImg() {
+        console.log("launching Filepicker");
+        client.picker(options).open();
+    }
+    const options = {
+        onUploadDone: logResult,
+        accept: 'image/*',
+        maxSize: 1024 * 1024 * 2,
+    };
+
+    function logResult(result) {
+        console.log(result);
+        let fileData = result.filesUploaded[0];
+        let img = document.createElement("img");
+        img.src = transform(fileData.handle);
+        let tag = document.getElementById("img_out");
+        tag.append(img);
+    }
+
+    function transform(imgUrl, transformations){
+        transformations = ["resize=width:300,height:300","sepia=tone:80"];
+        let urlArray = [FILESTACK_PREFIX, FILESTACK_API_KEY].concat(transformations);
+        urlArray.push(imgUrl);
+        return urlArray.join('/');
+    }
+    const FILESTACK_API_KEY = 'ArtLkbaeyQBmnbwBJRmmmz';
+    const FILESTACK_PREFIX = `https://cdn.filestackcontent.com`;
+    // const transformations = ["resize=width:300, height:300","monochrome"]
+</script>
+</body>
+</html>

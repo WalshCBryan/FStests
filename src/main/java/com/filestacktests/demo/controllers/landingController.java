@@ -11,6 +11,6 @@ public class landingController {
         return "landing";
     }
 
-    @GetMapping("/")
-    public String home2(){return "landing";}
+    @GetMapping("/tranformations")
+    public String home2(){return "transform";}
 }
