@@ -16,9 +16,7 @@
 <nav th:insert="/partials/navbar :: navbar"></nav>
 
 <h1 class="my-5 white" style="text-align: center"> Workflows </h1>
-<h5 class="white" style="text-align: center">Filestack workflows allow you to apply conditional logic to achieve different results </h5>
-<h5 class="white" style="text-align: center">not only can certain filetypes can be treated differently, but Filestack has easy to use built in utilities</h5>
-<h5 class="white" style="text-align: center">that can achieve tasks ranging from virus detection to meta-tagging to file conversion, all in one place!</h5>
+
 
 <button onclick="pickImg()" class="d-block bgorange white border mx-auto my-5 p-2">Launch Filepicker</button>
 
@@ -30,15 +28,19 @@
         console.log("launching Filepicker");
         client.picker(options).open();
     }
+
+    //options for filepicker
     const options = {
         onUploadDone: logResult,
         accept: 'image/*',
-        maxSize: 1024 * 1024 * 2,
+        maxSize: 1024 * 1024 * 6,
+        //IF using webhook:
         storeTo: {
             workflows: ["6a90c2c6-3e37-4a34-9d4f-2091646383a9"]
         }
     };
 
+    //this function pulls double duty as it logs the results to the console and pushes the image to a div on the page
     function logResult(result) {
         console.log(result);
         let fileData = result.filesUploaded[0];
@@ -48,30 +50,23 @@
         tag.append(img);
     }
 
-    function transform(imgUrl, transformations){
-        transformations = ["resize=width:300,height:300","sepia=tone:80"];
-        let urlArray = [FILESTACK_PREFIX, FILESTACK_API_KEY].concat(transformations);
-        urlArray.push(imgUrl);
-        return urlArray.join('/');
-    }
-
+    //structures img url including workflow id and security parameters
     function runWorkflow(imgUrl){
-        let urlArray = [FILESTACK_WORKFLOW_PREFIX];
+        let urlArray = [WF_prepend];
         urlArray.push(imgUrl);
         return urlArray.join('/');
     }
-    const FILESTACK_API_KEY = 'ArtLkbaeyQBmnbwBJRmmmz';
-    const FILESTACK_PREFIX = `https://cdn.filestackcontent.com`;
-    const FILESTACK_WORKFLOW_PREFIX = `https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJjYWxsIjpbInJlYWQiLCJydW5Xb3JrZmxvdyJdLCJleHBpcnkiOjE1OTQ3ODkyMDB9=,s:1e6a3c60a5396c4c035348002efe213c687e8f7a6fde1a8baeb7fed897d55ea6/run_workflow=id:6a90c2c6-3e37-4a34-9d4f-2091646383a9`;
 
+    // https://cdn.filestackcontent.com/<FILESTACK_API_KEY>/security=p:<POLICY>,s:<SIGNATURE>/run_workflow=id:<WORKFLOW_ID>/<FILE_URL>
 
+        const FILESTACK_WORKFLOW_PREFIX = `https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJleHBpcnkiOjE1ODk5NTA4MDAsImNhbGwiOlsicmVhZCIsInJ1bldvcmtmbG93Il19,s:a2aaaa9936c19f9262e1488706e14109c9c5516828f8c225602c082957e84457/run_workflow=id:6a90c2c6-3e37-4a34-9d4f-2091646383a9`;
+        //    const FILESTACK_WORKFLOW_PREFIX = 'https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJleHBpcnkiOjE1ODUzNzg4MDAsImNhbGwiOlsicmVhZCIsInJ1bldvcmtmbG93Il19,s:cb7c90828810e0adb0e512f16f4419f3ca40d57756e7d094b83bf23e65e78f3f/run_workflow=id:6a90c2c6-3e37-4a34-9d4f-2091646383a9';
 
+    const WF_prepend = 'https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJleHBpcnkiOjE1ODk5NTA4MDAsImNhbGwiOlsicmVhZCIsInJ1bldvcmtmbG93Il19,s:a2aaaa9936c19f9262e1488706e14109c9c5516828f8c225602c082957e84457/workflow_status=job_id:'
 
-    // https://cdn.filestackcontent.com/security=p:eyJjYWxsIjpbInJ1bldvcmtmbG93Il19,s:8e37a9f539c5e236676d3495e670b00153d02c144d3c11a357c97cd7dfd3e4ff/run_workflow=id:6a90c2c6-3e37-4a34-9d4f-2091646383a9/<FILE_HANDLE>
-
-
-
-    // const transformations = ["resize=width:300, height:300","monochrome"]
+    // sample GET req to see status of workflow
+    // https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJleHBpcnkiOjE1ODk5NTA4MDAsImNhbGwiOlsicmVhZCIsInJ1bldvcmtmbG93Il19,s:a2aaaa9936c19f9262e1488706e14109c9c5516828f8c225602c082957e84457/workflow_status=job_id:84a115cd-5f94-4c03-a4aa-8b789a8bd467
 </script>
 </body>
 </html>
+
