@@ -17,5 +17,8 @@ public class landingController {
     }
 
     @GetMapping("/tranformations")
-    public String home2(){return "transform";}
+    public String showTransform(){return "transform";}
+
+    @GetMapping("/workflow")
+    public String showWorkflow(){return "workflow";}
 }

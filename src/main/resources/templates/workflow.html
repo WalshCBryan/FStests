@@ -10,14 +10,15 @@
     <script src='../bootstrap/main.js'></script>
     <link rel="stylesheet" href="css/main.css">
     <meta charset="UTF-8">
-    <title>Sandbox - Transform</title>
+    <title>Sandbox - Workflow</title>
 </head>
 <body>
 <nav th:insert="/partials/navbar :: navbar"></nav>
 
-<h1 class="my-5 white" style="text-align: center"> Transformation </h1>
-<h5 class="white" style="text-align: center">Here you can upload an image of any size and Filestack will automatically adjust it to the desired parameters</h5>
-<h5 class="white" style="text-align: center">for this example I've chosen to resize to 300x300 and to apply a sepia filter</h5>
+<h1 class="my-5 white" style="text-align: center"> Workflows </h1>
+<h5 class="white" style="text-align: center">Filestack workflows allow you to apply conditional logic to achieve different results </h5>
+<h5 class="white" style="text-align: center">not only can certain filetypes can be treated differently, but Filestack has easy to use built in utilities</h5>
+<h5 class="white" style="text-align: center">that can achieve tasks ranging from virus detection to meta-tagging to file conversion, all in one place!</h5>
 
 <button onclick="pickImg()" class="d-block bgorange white border mx-auto my-5 p-2">Launch Filepicker</button>
 
@@ -33,13 +34,16 @@
         onUploadDone: logResult,
         accept: 'image/*',
         maxSize: 1024 * 1024 * 2,
+        storeTo: {
+            workflows: ["6a90c2c6-3e37-4a34-9d4f-2091646383a9"]
+        }
     };
 
     function logResult(result) {
         console.log(result);
         let fileData = result.filesUploaded[0];
         let img = document.createElement("img");
-        img.src = transform(fileData.handle);
+        img.src = runWorkflow(fileData.url);
         let tag = document.getElementById("img_out");
         tag.append(img);
     }
@@ -50,8 +54,22 @@
         urlArray.push(imgUrl);
         return urlArray.join('/');
     }
+
+    function runWorkflow(imgUrl){
+        let urlArray = [FILESTACK_WORKFLOW_PREFIX];
+        urlArray.push(imgUrl);
+        return urlArray.join('/');
+    }
     const FILESTACK_API_KEY = 'ArtLkbaeyQBmnbwBJRmmmz';
     const FILESTACK_PREFIX = `https://cdn.filestackcontent.com`;
+    const FILESTACK_WORKFLOW_PREFIX = `https://cdn.filestackcontent.com/ArtLkbaeyQBmnbwBJRmmmz/security=p:eyJjYWxsIjpbInJ1bldvcmtmbG93Il19,s:8e37a9f539c5e236676d3495e670b00153d02c144d3c11a357c97cd7dfd3e4ff/run_workflow=id:6a90c2c6-3e37-4a34-9d4f-2091646383a9`;
+
+
+
+
+
+
+
     // const transformations = ["resize=width:300, height:300","monochrome"]
 </script>
 </body>
