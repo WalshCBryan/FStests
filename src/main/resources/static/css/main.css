@@ -34,3 +34,23 @@ body {
     border: 2px solid white;
     border-radius: 10px;
 }
+
+/* unvisited link */
+a:link {
+    color: white;
+}
+
+/* visited link */
+a:visited {
+    color: white;
+}
+
+/* mouse over link */
+a:hover {
+    color: #EF4925;
+}
+
+/* selected link */
+a:active {
+    color: lightcoral;
+}

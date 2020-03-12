@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class landingController {
     @GetMapping("/home")
     public String home(){
-        return "landing";
+        return "home";
+    }
+
+    @GetMapping("/")
+    public String alsoHome(){
+        return "home";
     }
 
     @GetMapping("/tranformations")
